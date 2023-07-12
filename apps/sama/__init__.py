@@ -1,0 +1,3 @@
+"""
+sama app module.
+"""

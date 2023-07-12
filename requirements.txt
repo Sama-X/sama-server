@@ -1,2 +1,6 @@
 fastapi==0.100.0
 unicorn==2.0.1.post1
+pydantic_settings==2.0.1
+sqlalchemy==2.0.18
+pymysql==1.1.0
+cryptography==41.0.2
