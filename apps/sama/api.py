@@ -2,12 +2,13 @@
 Sama API.
 """
 
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import APIRouter, Depends, Query
+from pydantic import TypeAdapter
 
 from sqlalchemy.orm import Session
 
-from sama import service
+from sama import serializers, service
 
 from base.models import get_db
 from base.response import APIResponse
@@ -29,7 +30,9 @@ async def get_nodes(country: Annotated[str | None, Query(max_length=16)] = None,
     Get all nodes.
     """
     total, items = await service.get_sama_nodes(db, country, page, limit)
-
     return APIResponse(
-        200, data=[item.to_dict() for item in items], total=total
+        200, data=[
+            serializers.SamaNode.model_validate(
+                item, from_attributes=True) for item in items
+        ], total=total
     )
