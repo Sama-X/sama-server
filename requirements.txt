@@ -1,0 +1,2 @@
+fastapi==0.100.0
+unicorn==2.0.1.post1
