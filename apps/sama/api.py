@@ -2,9 +2,8 @@
 Sama API.
 """
 
-from typing import Annotated, List
+from typing import Annotated
 from fastapi import APIRouter, Depends, Query
-from pydantic import TypeAdapter
 
 from sqlalchemy.orm import Session
 
