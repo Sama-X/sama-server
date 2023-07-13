@@ -41,3 +41,11 @@ class SamaNodeConfig(BaseModel):
     work_key: str
     cpu_info: Optional[str]
     memory_info: Optional[str]
+
+
+class SamaNodeAuditConfig(BaseModel):
+    """
+    SamaNode audit config.
+    """
+    work_key: str
+    audit_node_info: Optional[str]

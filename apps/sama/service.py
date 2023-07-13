@@ -6,7 +6,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from sama import serializers
-from sama.models import SamaNode, UploadNodeInfoLog
+from sama.models import SamaNode, UploadAuditNodeLog, UploadNodeInfoLog
 
 from base.response import APIResponse
 
@@ -47,6 +47,32 @@ async def upload_sama_config(db: Session, config: serializers.SamaNodeConfig):
             'work_key': config.work_key,
             'cpu_info': config.cpu_info,
             'memory_info': config.memory_info,
+            'upload_time': datetime.now()
+        })
+        db.add(log)
+        db.commit()
+
+    return APIResponse(200)
+
+async def upload_sama_audit(db: Session, config: serializers.SamaNodeAuditConfig):
+    """
+    Upload sama audit.
+    """
+    with db.begin():
+        node = db.query(SamaNode).filter(
+            SamaNode.work_key == config.work_key,
+            SamaNode.is_delete.is_(False)
+        ).first()
+
+        if node is None:
+            return APIResponse(404, error="Node not found, plese check your work_key.")
+
+        node.audit_node_info = config.audit_node_info
+        db.add(node)
+
+        log = UploadAuditNodeLog(**{
+            'work_key': config.work_key,
+            'audit_node_info': config.audit_node_info,
             'upload_time': datetime.now()
         })
         db.add(log)
