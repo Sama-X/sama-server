@@ -62,3 +62,11 @@ async def upload_connect_node(config: serializers.SamaNodeConnectConfig,
     Connect node.
     """
     return await service.connect_sama_node(db, config)
+
+@router.post("/users")
+async def create_user(user: serializers.UserCreate,
+                        db: Session = Depends(get_db)):
+    """
+    Create user.
+    """
+    return await service.create_user(db, user)

@@ -44,6 +44,18 @@ class SamaUser(ModelBase, Base):
     end_time = Column(DateTime, nullable=True, comment="结束时间")
 
 
+class SamaUserLog(ModelBase, Base):
+    """
+    Sama user log model.
+    """
+    __tablename__ = "sama_user_log"
+
+    address = Column(String(256), index=True, comment="钱包地址")
+    start_time = Column(DateTime, nullable=True, comment="开始时间")
+    end_time = Column(DateTime, nullable=True, comment="结束时间")
+    upload_time = Column(DateTime, nullable=True, comment="上传时间")
+
+
 class UploadConnectLog(ModelBase, Base):
     """
     Upload connect log model.

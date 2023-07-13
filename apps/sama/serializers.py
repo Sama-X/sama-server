@@ -2,8 +2,9 @@
 SamaNode serializer.
 """
 
+from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class SamaNode(BaseModel):
@@ -31,7 +32,7 @@ class SamaNode(BaseModel):
         """
         Config.
         """
-        orm_mode = True
+        from_attributes = True
 
 
 class SamaNodeConfig(BaseModel):
@@ -57,3 +58,32 @@ class SamaNodeConnectConfig(BaseModel):
     """
     work_key: str
     active_connect_num: int
+
+
+class UserCreate(BaseModel):
+    """
+    User create.
+    """
+    address: str
+    start_time: Optional[datetime]
+    end_time: Optional[datetime]
+
+    @validator("start_time", pre=True)
+    def parse_start_time(cls, value):  # pylint: disable=E0213
+        """
+        Parse start time.
+        """
+        return datetime.strptime(
+            value,
+            "%Y-%m-%d %H:%M:%S"
+        ).date()
+
+    @validator("end_time", pre=True)
+    def parse_end_time(cls, value):  # pylint: disable=E0213
+        """
+        Parse end time.
+        """
+        return datetime.strptime(
+            value,
+            "%Y-%m-%d %H:%M:%S"
+        ).date()

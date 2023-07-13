@@ -6,7 +6,10 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from sama import serializers
-from sama.models import SamaNode, UploadAuditNodeLog, UploadConnectLog, UploadNodeInfoLog
+from sama.models import (
+    SamaNode, SamaUser, SamaUserLog, UploadAuditNodeLog, UploadConnectLog,
+    UploadNodeInfoLog
+)
 
 from base.response import APIResponse
 
@@ -105,3 +108,38 @@ async def connect_sama_node(db: Session, config: serializers.SamaNodeConnectConf
         db.commit()
 
     return APIResponse(200)
+
+
+async def create_user(db: Session, user: serializers.UserCreate):
+    """
+    Create user.
+    """
+    with db.begin():
+        obj = db.query(SamaUser).filter(
+            SamaUser.address == user.address,
+            SamaUser.is_delete.is_(False)
+        ).first()
+
+        log = SamaUserLog(**{
+            'address': user.address,
+            'start_time': user.start_time,
+            'end_time': user.end_time,
+            'upload_time': datetime.now()
+        })
+        db.add(log)
+
+        if not obj:
+            obj = SamaUser(**{
+                'address': user.address,
+                'start_time': user.start_time,
+                'end_time': user.end_time,
+            })
+            db.add(obj)
+        else:
+            obj.start_time = user.start_time
+            obj.end_time = user.end_time
+            db.add(obj)
+
+        db.commit()
+
+        return APIResponse(200)
