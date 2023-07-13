@@ -53,3 +53,12 @@ async def upload_audit(config: serializers.SamaNodeAuditConfig,
     Upload audit.
     """
     return await service.upload_sama_audit(db, config)
+
+
+@router.post("/nodes/connect")
+async def upload_connect_node(config: serializers.SamaNodeConnectConfig,
+                              db: Session = Depends(get_db)):
+    """
+    Connect node.
+    """
+    return await service.connect_sama_node(db, config)

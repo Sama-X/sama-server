@@ -49,3 +49,11 @@ class SamaNodeAuditConfig(BaseModel):
     """
     work_key: str
     audit_node_info: Optional[str]
+
+
+class SamaNodeConnectConfig(BaseModel):
+    """
+    SamaNode connect config.
+    """
+    work_key: str
+    active_connect_num: int
