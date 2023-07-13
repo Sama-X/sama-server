@@ -32,3 +32,12 @@ class SamaNode(BaseModel):
         Config.
         """
         orm_mode = True
+
+
+class SamaNodeConfig(BaseModel):
+    """
+    SamaNode config.
+    """
+    work_key: str
+    cpu_info: Optional[str]
+    memory_info: Optional[str]

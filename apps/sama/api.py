@@ -35,3 +35,12 @@ async def get_nodes(country: Annotated[str | None, Query(max_length=16)] = None,
                 item, from_attributes=True) for item in items
         ], total=total
     )
+
+
+@router.post("/nodes/config")
+async def upload_config(config: serializers.SamaNodeConfig,
+                        db: Session = Depends(get_db)):
+    """
+    Upload config.
+    """
+    return await service.upload_sama_config(db, config)
