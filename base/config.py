@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     celery_url : str = ""
     celery_broker_url : str = ""
     celery_result_backend : str = ""
+    sama_server: str = ""
 
     model_config = SettingsConfigDict(env_file=".env")
 
