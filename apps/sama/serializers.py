@@ -24,9 +24,9 @@ class SamaNode(BaseModel):
     staker_addr: Optional[str]
     work_addr: Optional[str]
     is_active: bool
-    audit_node_info: Optional[int]
-    cpu_info: Optional[int]
-    memory_info: Optional[int]
+    audit_node_info: Optional[str]
+    cpu_info: Optional[str]
+    memory_info: Optional[str]
 
     class Config:
         """

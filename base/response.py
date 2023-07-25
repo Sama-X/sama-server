@@ -2,6 +2,7 @@
 Custom API response module.
 """
 
+
 class APIResponse(dict):
     """
     APIResponse is a dict subclass that can be used to send API responses.
@@ -12,7 +13,8 @@ class APIResponse(dict):
         Initialize APIResponse.
         """
         result = {
-            'code': code
+            'code': code,
+            'message': 'success'
         }
         if data is not None:
             if isinstance(data, str):
