@@ -10,6 +10,7 @@ from sama.models import (
     SamaNode, SamaUser, SamaUserLog, UploadAuditNodeLog, UploadConnectLog,
     UploadNodeInfoLog
 )
+from sama.tasks import upload_node_to_icp
 
 from base.response import APIResponse
 
@@ -55,6 +56,11 @@ async def upload_sama_config(db: Session, config: serializers.SamaNodeConfig):
         db.add(log)
         db.commit()
 
+    try:
+        upload_node_to_icp.delay(config.work_key)
+    except Exception:  # pylint: disable=broad-exception-caught
+        pass
+
     return APIResponse(200)
 
 async def upload_sama_audit(db: Session, config: serializers.SamaNodeAuditConfig):
@@ -81,6 +87,11 @@ async def upload_sama_audit(db: Session, config: serializers.SamaNodeAuditConfig
         db.add(log)
         db.commit()
 
+    try:
+        upload_node_to_icp.delay(config.work_key)
+    except Exception:  # pylint: disable=broad-exception-caught
+        pass
+
     return APIResponse(200)
 
 
@@ -106,6 +117,11 @@ async def connect_sama_node(db: Session, config: serializers.SamaNodeConnectConf
         })
         db.add(log)
         db.commit()
+
+    try:
+        upload_node_to_icp.delay(config.work_key)
+    except Exception:  # pylint: disable=broad-exception-caught
+        pass
 
     return APIResponse(200)
 

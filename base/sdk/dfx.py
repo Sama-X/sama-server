@@ -134,13 +134,13 @@ class Record:
         Parse the data.
         """
         new_data = data.replace('\n', '')
-        if  not new_data or new_data == '(null)':
+        if not new_data or new_data == '(null)':
             self.data = None
             return
-        if new_data.startswith('(opt'):
+        if new_data.replace(' ', '').startswith('(opt"'):
             self.data = self.prase_text(new_data)
             return
-        if new_data.startswith('(  opt vec {'):
+        if new_data.replace(' ', '').startswith('(optvec{'):
             self.data = self.prase_list(new_data)
             return
 
@@ -149,14 +149,13 @@ class Record:
         Parse the text.
         such as: '(opt "Ok.")'
         """
-        result = re.match(r'\(opt "(?P<data>.*)"\)', data)
+        result = re.match(r'\(.*opt "(?P<data>.*?)".*\)', data)
         if not result:
             return None
         value = result.group('data')
         try:
             return json.loads(base64.b64decode(value).decode("utf-8"))
-        except Exception as error:
-            logger.error("【dfx error】prase data reason: %s", error)
+        except Exception as error:  # pylint: disable=broad-exception-caught
             self.error = str(error)
             return value
 
@@ -184,9 +183,9 @@ class Record:
             try:
                 value = base64.b64decode(value).decode("utf-8")
                 value = json.loads(value)
-            except ValueError as err:
+            except ValueError:
                 pass
-            except Exception as error:
+            except Exception:  # pylint: disable=broad-exception-caught
                 pass
             result.append({
                 name: value

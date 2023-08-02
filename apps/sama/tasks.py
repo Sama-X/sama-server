@@ -9,9 +9,11 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 from celery import shared_task
 
+from sama import serializers
 from sama.models import SamaNode
 
 from base.models import get_db
+from base.sdk.dfx import DFXClient
 from base.sdk.sama import SamaSDK
 
 
@@ -74,3 +76,30 @@ def get_sama_nodes(db = Depends(get_db)):
         "【get sama nodes】end new_nodes: %s, delete_nodes: %s",
         len(new_nodes), len(delete_nodes)
     )
+
+
+@shared_task
+def upload_node_to_icp(work_key, db = Depends(get_db)):
+    """
+    Upload node to icp.
+    """
+    session: Session = next(db.dependency())
+    if not session:
+        logger.error("【upload node to icp】error reason: session is not exist")
+        return
+    logger.info("【upload node to icp】start")
+    db_node = session.query(SamaNode).filter(
+        SamaNode.is_active.is_(True), SamaNode.is_delete.is_(False),
+        SamaNode.work_key == work_key
+    ).first()
+    if not db_node:
+        logger.error("【upload node to icp】error reason: node is not exist")
+        return
+    item = serializers.SamaNode.model_validate(db_node, from_attributes=True)
+
+    if DFXClient.get(work_key).data:
+        result = DFXClient.update(work_key, item.model_dump_json())
+    else:
+        result = DFXClient.add(work_key, item.model_dump_json())
+
+    logger.info("【upload node to icp】end upload result: %s", result.data)
