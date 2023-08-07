@@ -37,7 +37,7 @@ logconfig_dict = {
             "maxBytes": 1024 * 1024 * 20,
             "backupCount": 10,
             "formatter": "generic",
-            "filename": "/app/data/lease/logs/gunicorn.access.log",
+            "filename": "/app/data/logs/gunicorn.access.log",
         }
     },
     'formatters':{

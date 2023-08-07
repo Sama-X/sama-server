@@ -20,4 +20,4 @@ RUN chmod +x ${work}/docker/deploy/*
 # 根据requirement.txt下载好依赖包
 RUN /usr/local/bin/pip3 install -i http://mirrors.aliyun.com/pypi/simple/ --trusted mirrors.aliyun.com -r requirements.txt
 
-EXPOSE 8800
+EXPOSE 8003
