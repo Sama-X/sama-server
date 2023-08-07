@@ -160,3 +160,6 @@ cython_debug/
 #.idea/
 celerybeat-schedule.db
 dfx
+restart_web_*.sh
+docker-compose-*.yaml
+deploy.sh

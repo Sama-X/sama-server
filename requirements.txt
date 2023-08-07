@@ -7,3 +7,5 @@ cryptography==41.0.2
 requests==2.31.0
 celery==5.3.1
 redis==4.6.0
+supervisor==4.2.4
+gunicorn[gevent]
