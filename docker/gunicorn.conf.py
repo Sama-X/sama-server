@@ -4,7 +4,7 @@ workers=1
 
 backlog=2048
 
-worker_class="gevent"
+worker_class="uvicorn.workers.UvicornWorker"
 
 debug=False
 

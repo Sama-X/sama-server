@@ -11,7 +11,7 @@ RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' 
 # 设置语言为utf-8
 ENV LANG C.UTF-8
 
-ARG work=/app/data/sama
+ARG work=/app/data
 WORKDIR ${work}
 # 拷贝当前文件代码到工作目录
 COPY . ${work}
