@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     sama_server: str = ""
     dfx_server: str = ""
     dfx_path: str = ""
+    dfx_token: str = ""
 
     model_config = SettingsConfigDict(env_file=".env")
 

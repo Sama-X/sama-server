@@ -22,6 +22,8 @@ class DFXClient:
 
     SERVER = get_settings().dfx_server
     DFX_PATH = get_settings().dfx_path
+    DFX_TOKEN = get_settings().dfx_token
+    IS_INIT = False
 
     @classmethod
     def _check_env(cls):
@@ -43,12 +45,27 @@ class DFXClient:
         return True
 
     @classmethod
+    def init(cls):
+        """
+        Init the dfx.
+        """
+        resp = cls.set_store_name(cls.DFX_TOKEN)
+        if resp.error:
+            logger.error("【dfx init】 reason: %s", resp.error)
+            return False
+        logger.info("【dfx init】 resp: %s", resp.data)
+
+    @classmethod
     def _execute(cls, scripts):
         """
         Execute the scripts.
         """
         if not cls._check_env():
             return False
+
+        if not cls.IS_INIT:
+            cls.IS_INIT = True
+            cls.init()
 
         print(scripts)
         result, error = None, None
