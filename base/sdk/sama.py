@@ -37,7 +37,7 @@ class SamaSDK:
         result = resp.json()
         blockchains = result.get('result', {}).get('blockchains', [])
         for blockchain in blockchains:
-            if blockchain.get('name') == 'lq':
+            if blockchain.get('name') == 'sama':
                 return blockchain.get('id')
 
         return None
