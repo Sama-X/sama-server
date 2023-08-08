@@ -116,6 +116,33 @@ class DFXClient:
         )
         return Record("update", cls._execute(scripts))
 
+    @classmethod
+    def get_store_name(cls):
+        """
+        Get the store name.
+        """
+        scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} get_map_name'
+        return Record("get_store_name", cls._execute(scripts))
+
+    @classmethod
+    def set_store_name(cls, name):
+        """
+        Set the store name.
+        """
+        scripts = (
+            f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} set_map_name '
+            f'\'("{name}")\''
+        )
+        return Record("set_store_name", cls._execute(scripts))
+
+    @classmethod
+    def unset_store_name(cls):
+        """
+        Unset the store name.
+        """
+        scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} unset_map_name'
+        return Record("unset_store_name", cls._execute(scripts))
+
 
 class Record:
     """
