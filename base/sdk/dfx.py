@@ -63,7 +63,7 @@ class DFXClient:
         if not cls._check_env():
             return False
 
-        if not cls.IS_INIT:
+        if cls.DFX_TOKEN and not cls.IS_INIT:
             cls.IS_INIT = True
             cls.init()
 
@@ -160,6 +160,14 @@ class DFXClient:
         scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} unset_map_name'
         return Record("unset_store_name", cls._execute(scripts))
 
+    @classmethod
+    def get_self(cls):
+        """
+        Get the self store name.
+        """
+        scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} get_self'
+        return Record("get_self", cls._execute(scripts))
+
 
 class Record:
     """
@@ -171,7 +179,8 @@ class Record:
     def __init__(self, name, data):
         self.name = name
         print("data = ", data)
-        self.parse(data)
+        if not data:
+            self.parse(data)
 
     def parse(self, data):
         """
