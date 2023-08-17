@@ -179,7 +179,7 @@ class Record:
     def __init__(self, name, data):
         self.name = name
         print("data = ", data)
-        if not data:
+        if data:
             self.parse(data)
 
     def parse(self, data):
