@@ -181,6 +181,8 @@ class Record:
         print("data = ", data)
         if data:
             self.parse(data)
+        else:
+            self.data = None
 
     def parse(self, data):
         """
