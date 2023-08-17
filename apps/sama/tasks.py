@@ -34,7 +34,7 @@ def get_sama_nodes(db = Depends(get_db)):
 
     with session.begin():
         db_nodes = session.query(SamaNode).filter(
-            SamaNode.is_active.is_(True), SamaNode.is_delete.is_(False)
+            SamaNode.is_delete.is_(False)
         ).with_entities(SamaNode.id, SamaNode.work_key).all()
         old_nodes = {item.work_key: item.id for item in db_nodes}
         new_nodes, delete_nodes = [], []
