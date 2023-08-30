@@ -4,7 +4,7 @@ SamaNode serializer.
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_serializer, validator
 
 
 class SamaNode(BaseModel):
@@ -27,7 +27,16 @@ class SamaNode(BaseModel):
     audit_node_info: Optional[str]
     cpu_info: Optional[str]
     memory_info: Optional[str]
-    modified_time: Optional[str]
+    modified_time: Optional[datetime]
+
+    @field_serializer('modified_time')
+    def serializer_modified_time(self, modified_time) -> str:
+        """
+        Modified time string.
+        """
+        if modified_time is None:
+            return ''
+        return modified_time.strftime("%Y-%m-%d %H:%M:%S")
 
     class Config:
         """
