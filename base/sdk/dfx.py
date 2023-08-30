@@ -49,6 +49,12 @@ class DFXClient:
         """
         Init the dfx.
         """
+        if not cls.DFX_TOKEN:
+            return False
+
+        if cls.IS_INIT:
+            return True
+
         resp = cls.set_store_name(cls.DFX_TOKEN)
         if resp.error:
             logger.error("【dfx init】 reason: %s", resp.error)
@@ -62,10 +68,6 @@ class DFXClient:
         """
         if not cls._check_env():
             return False
-
-        if cls.DFX_TOKEN and not cls.IS_INIT:
-            cls.IS_INIT = True
-            cls.init()
 
         print(scripts)
         result, error = None, None
@@ -178,11 +180,11 @@ class Record:
 
     def __init__(self, name, data):
         self.name = name
-        print("data = ", data)
         if data:
             self.parse(data)
         else:
             self.data = None
+            self.error = None
 
     def parse(self, data):
         """

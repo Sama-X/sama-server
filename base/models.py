@@ -2,6 +2,7 @@
 Models for the base app.
 """
 
+from contextlib import contextmanager
 from datetime import datetime
 import pymysql
 
@@ -32,6 +33,15 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def get_db_ctx():
+    """
+    get database connection context for sync.
+    """
+    context = contextmanager(get_db)()
+    return context
+
 
 
 class ModelBase:

@@ -7,6 +7,7 @@ import os
 import sys
 
 from fastapi import FastAPI
+from base.sdk.dfx import DFXClient
 
 sys.path.append(os.path.join('./apps'))
 
@@ -23,6 +24,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 app.include_router(sama_router)
 init_error_handler(app)
+DFXClient.init()
 
 __all__ = ('celery_app',)
 print(app.router.routes)
