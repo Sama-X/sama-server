@@ -90,7 +90,7 @@ class DFXClient:
         """
         data = base64.b64encode(data.encode("utf-8")).decode("utf-8")
         scripts = (
-            f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} add '
+            f'{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} add '
             f'\'("{name}", "{data}")\''
         )
         return Record("add", cls._execute(scripts))
@@ -101,7 +101,7 @@ class DFXClient:
         Get the record.
         """
         scripts = (
-            f'''{cls.DFX_PATH} canister --network ic call {cls.SERVER} get '(\"{name}\")' '''
+            f'''{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} get '(\"{name}\")' '''
         )
         return Record(name, cls._execute(scripts))
 
@@ -111,7 +111,7 @@ class DFXClient:
         Remove the record.
         """
         scripts = (
-            f'''{cls.DFX_PATH} canister --network ic call {cls.SERVER} remove '(\"{name}\")' '''
+            f'''{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} remove '(\"{name}\")' '''
         )
         return Record("remove", cls._execute(scripts))
 
@@ -120,7 +120,7 @@ class DFXClient:
         """
         list the record.
         """
-        scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} get_all'
+        scripts = f'{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} get_all'
         return Record('list', cls._execute(scripts))
 
     @classmethod
@@ -130,7 +130,7 @@ class DFXClient:
         """
         data = base64.b64encode(data.encode("utf-8")).decode("utf-8")
         scripts = (
-            f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} update '
+            f'{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} update '
             f'\'("{name}", "{data}")\''
         )
         return Record("update", cls._execute(scripts))
@@ -140,7 +140,7 @@ class DFXClient:
         """
         Get the store name.
         """
-        scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} get_map_name'
+        scripts = f'{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} get_map_name'
         return Record("get_store_name", cls._execute(scripts))
 
     @classmethod
@@ -149,7 +149,7 @@ class DFXClient:
         Set the store name.
         """
         scripts = (
-            f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} set_map_name '
+            f'{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} set_map_name '
             f'\'("{name}")\''
         )
         return Record("set_store_name", cls._execute(scripts))
@@ -159,7 +159,7 @@ class DFXClient:
         """
         Unset the store name.
         """
-        scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} unset_map_name'
+        scripts = f'{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} unset_map_name'
         return Record("unset_store_name", cls._execute(scripts))
 
     @classmethod
@@ -167,7 +167,7 @@ class DFXClient:
         """
         Get the self store name.
         """
-        scripts = f'{cls.DFX_PATH} canister --network ic call {cls.SERVER} get_self'
+        scripts = f'{cls.DFX_PATH} canister -qq --network ic call {cls.SERVER} get_self'
         return Record("get_self", cls._execute(scripts))
 
 
