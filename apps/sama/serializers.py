@@ -27,6 +27,7 @@ class SamaNode(BaseModel):
     audit_node_info: Optional[str]
     cpu_info: Optional[str]
     memory_info: Optional[str]
+    modified_time: Optional[str]
 
     class Config:
         """
