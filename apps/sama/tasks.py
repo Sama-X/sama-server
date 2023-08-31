@@ -82,7 +82,7 @@ def upload_node_to_icp(work_key):
     logger.info("【upload node to icp】start")
     with get_db_ctx() as session:
         db_node = session.query(SamaNode).filter(
-            SamaNode.is_active.is_(True), SamaNode.is_delete.is_(False),
+            SamaNode.is_delete.is_(False),
             SamaNode.work_key == work_key
         ).first()
         if not db_node:
